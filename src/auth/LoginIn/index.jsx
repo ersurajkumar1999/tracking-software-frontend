@@ -1,13 +1,8 @@
 import { Link } from 'react-router-dom';
 
 // material-ui
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import { Grid, Stack, Typography } from '@mui/material';
 
-// project import
-// import AuthWrapper from './AuthWrapper';
-// import AuthLogin from './auth-forms/AuthLogin';
 import AuthWrapper from 'auth/componentes/AuthWrapper';
 import LogInPage from 'auth/componentes/LogInPage';
 const LoginIn = () => {
