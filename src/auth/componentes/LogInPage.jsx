@@ -28,6 +28,7 @@ import EyeInvisibleOutlined from '@ant-design/icons/EyeInvisibleOutlined';
 import FirebaseSocial from './FirebaseSocial';
 import { loginSchema } from 'schemas/FormSchemas';
 import { userLogin } from 'services/AuthService';
+import { successMessage } from 'helpers/ToasterMessages';
 
 // ============================|| JWT - LOGIN ||============================ //
 
@@ -63,11 +64,11 @@ const LogInPage = () => {
         email: values.email,
         password: values.password
       };
-      console.log("data==>", data);
       try {
         setSubmitting(true);
+        
         const response = await userLogin(data);
-        console.log("response", response);
+        console.log("response", response.data);
         // This is check Only Api Response 
         if (!response.status) {
             // dispatch(setErrorMessage(response.data.message));
@@ -79,6 +80,7 @@ const LogInPage = () => {
         }
         // dispatch(setSuccessMessage(response?.data?.message));
         resetForm();
+        await successMessage(response.data?.message);
         dispatch(login(response.data.data ?? null));
         navigate('/admin/dashboard');
       } catch (error) {
