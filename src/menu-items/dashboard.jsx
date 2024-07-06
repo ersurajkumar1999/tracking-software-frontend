@@ -17,7 +17,15 @@ const dashboard = {
       id: 'dashboard',
       title: 'Dashboard',
       type: 'item',
-      url: '/dashboard/default',
+      url: '/user/dashboard',
+      icon: icons.DashboardOutlined,
+      breadcrumbs: false
+    },
+    {
+      id: 'profile',
+      title: 'Profile',
+      type: 'item',
+      url: '/user/profile',
       icon: icons.DashboardOutlined,
       breadcrumbs: false
     }

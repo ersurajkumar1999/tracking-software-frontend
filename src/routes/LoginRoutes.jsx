@@ -3,24 +3,27 @@ import { lazy } from 'react';
 // project import
 import Loadable from 'components/Loadable';
 import MinimalLayout from 'layout/MinimalLayout';
+import AuthLayout from 'auth/layout/AuthLayout';
+import LoginIn from 'auth/LoginIn';
+import SignUp from 'auth/SignUp';
 
 // render - login
-const AuthLogin = Loadable(lazy(() => import('pages/authentication/login')));
-const AuthRegister = Loadable(lazy(() => import('pages/authentication/register')));
+const AuthLogin = Loadable(lazy(() => import('auth/LoginIn')));
+const AuthRegister = Loadable(lazy(() => import('auth/SignUp')));
 
 // ==============================|| AUTH ROUTING ||============================== //
 
 const LoginRoutes = {
   path: '/',
-  element: <MinimalLayout />,
+  element: <AuthLayout />,
   children: [
     {
       path: '/login',
-      element: <AuthLogin />
+      element: <LoginIn />
     },
     {
       path: '/register',
-      element: <AuthRegister />
+      element: <SignUp />
     }
   ]
 };
