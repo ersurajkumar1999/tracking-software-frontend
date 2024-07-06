@@ -26,7 +26,7 @@ import EyeOutlined from '@ant-design/icons/EyeOutlined';
 import EyeInvisibleOutlined from '@ant-design/icons/EyeInvisibleOutlined';
 import FirebaseSocial from './FirebaseSocial';
 import { loginSchema } from 'schemas/FormSchemas';
-import { userLogin } from 'services/AuthService';
+import { storeDataToStorage, userLogin } from 'services/AuthService';
 import { errorMessage, successMessage } from 'helpers/ToasterMessages';
 
 // ============================|| JWT - LOGIN ||============================ //
@@ -79,6 +79,7 @@ const LogInPage = () => {
           return;
         }
         resetForm();
+        await storeDataToStorage(response.data.data);
         await successMessage(response.data?.message);
         navigate('/user/dashboard');
       } catch (error) {
