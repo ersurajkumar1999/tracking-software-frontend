@@ -17,10 +17,10 @@ export const signUpSchema = Yup.object({
         )
         .required('Please enter your email'),
     password: Yup.string().min(6).required('Please enter your password'),
-    confirmPassword: Yup.string()
-        .oneOf([Yup.ref('password'), null], 'Passwords must match')
-        .required('Please confirm your password'),
-    iAgree: Yup.boolean().oneOf([true], 'You must agree before submitting.').required('You must agree before submitting.'),
+    // confirmPassword: Yup.string()
+    //     .oneOf([Yup.ref('password'), null], 'Passwords must match')
+    //     .required('Please confirm your password'),
+    // iAgree: Yup.boolean().oneOf([true], 'You must agree before submitting.').required('You must agree before submitting.'),
 });
 
 export const forgotPasswordSchema = Yup.object({

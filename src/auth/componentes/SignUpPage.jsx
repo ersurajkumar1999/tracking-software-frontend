@@ -15,9 +15,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-// third party
-import * as Yup from 'yup';
-import { Formik, useFormik } from 'formik';
+import {useFormik } from 'formik';
 
 // project import
 import AnimateButton from 'components/@extended/AnimateButton';
@@ -27,6 +25,7 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 import EyeOutlined from '@ant-design/icons/EyeOutlined';
 import EyeInvisibleOutlined from '@ant-design/icons/EyeInvisibleOutlined';
 import { signUpSchema } from 'schemas/FormSchemas';
+import { userSignUp } from 'services/AuthService';
 
 const SignUpPage = () => {
 
@@ -50,11 +49,11 @@ const SignUpPage = () => {
   }, []);
 
   const initialValues = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    firstName: 'suraj',
+    lastName: 'kumar',
+    email: 'suraj1@gmail.com',
+    password: '12345678',
+    confirmPassword: '12345678',
     iAgree: false,
   };
   const {
@@ -92,6 +91,7 @@ const SignUpPage = () => {
       }
     },
   });
+  console.log("errors",errors);
   return (
     <form noValidate onSubmit={handleSubmit}>
       <Grid container spacing={3}>
@@ -100,19 +100,20 @@ const SignUpPage = () => {
             <InputLabel htmlFor="firstname-signup">First Name*</InputLabel>
             <OutlinedInput
               id="firstname-login"
-              type="firstname"
-              value={values.firstname}
-              name="firstname"
+              type="text"
+              value={values.firstName}
+              name="firstName"
               onBlur={handleBlur}
               onChange={handleChange}
               placeholder="John"
               fullWidth
-              error={Boolean(touched.firstname && errors.firstname)}
+              error={Boolean(touched.firstName && errors.firstName)}
+              disabled={isSubmitting} 
             />
           </Stack>
-          {touched.firstname && errors.firstname && (
+          {touched.firstName && errors.firstName && (
             <FormHelperText error id="helper-text-firstname-signup">
-              {errors.firstname}
+              {errors.firstName}
             </FormHelperText>
           )}
         </Grid>
@@ -121,24 +122,25 @@ const SignUpPage = () => {
             <InputLabel htmlFor="lastname-signup">Last Name*</InputLabel>
             <OutlinedInput
               fullWidth
-              error={Boolean(touched.lastname && errors.lastname)}
+              error={Boolean(touched.lastName && errors.lastName)}
               id="lastname-signup"
               type="lastname"
-              value={values.lastname}
-              name="lastname"
+              value={values.lastName}
+              name="lastName"
               onBlur={handleBlur}
               onChange={handleChange}
               placeholder="Doe"
               inputProps={{}}
+              disabled={isSubmitting} 
             />
           </Stack>
-          {touched.lastname && errors.lastname && (
+          {touched.lastName && errors.lastName && (
             <FormHelperText error id="helper-text-lastname-signup">
-              {errors.lastname}
+              {errors.lastName}
             </FormHelperText>
           )}
         </Grid>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <Stack spacing={1}>
             <InputLabel htmlFor="company-signup">Company</InputLabel>
             <OutlinedInput
@@ -158,7 +160,7 @@ const SignUpPage = () => {
               {errors.company}
             </FormHelperText>
           )}
-        </Grid>
+        </Grid> */}
         <Grid item xs={12}>
           <Stack spacing={1}>
             <InputLabel htmlFor="email-signup">Email Address*</InputLabel>
@@ -173,6 +175,7 @@ const SignUpPage = () => {
               onChange={handleChange}
               placeholder="demo@company.com"
               inputProps={{}}
+              disabled={isSubmitting} 
             />
           </Stack>
           {touched.email && errors.email && (
@@ -211,6 +214,7 @@ const SignUpPage = () => {
               }
               placeholder="******"
               inputProps={{}}
+              disabled={isSubmitting} 
             />
           </Stack>
           {touched.password && errors.password && (
