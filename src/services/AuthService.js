@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from './config';
-import { successResponse } from './ApiResponse';
+import { errorResponse, successResponse } from './ApiResponse';
 import { AUTH_LOGIN, AUTH_SIGNUP, LOGIN_WITH_GOOGLE } from './API_ENDPOINTS';
 let service = axios.create({
     baseURL: BASE_URL,
@@ -14,10 +14,7 @@ const userLogin = async (data) => {
         const response = await service.post(AUTH_LOGIN, data);
         return successResponse(response);
     } catch (error) {
-        const message = {
-            message: error?.message
-        }
-        return { status: false, data: error?.response?.data ?? message };
+        return errorResponse(error);
     }
 }
 const userSignUp = async (data) => {

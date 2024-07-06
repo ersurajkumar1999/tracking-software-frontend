@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // material-ui
 import {
   Button,
@@ -28,11 +27,12 @@ import EyeInvisibleOutlined from '@ant-design/icons/EyeInvisibleOutlined';
 import FirebaseSocial from './FirebaseSocial';
 import { loginSchema } from 'schemas/FormSchemas';
 import { userLogin } from 'services/AuthService';
-import { successMessage } from 'helpers/ToasterMessages';
+import { errorMessage, successMessage } from 'helpers/ToasterMessages';
 
 // ============================|| JWT - LOGIN ||============================ //
 
 const LogInPage = () => {
+  const navigate = useNavigate();
   const [checked, setChecked] = React.useState(false);
 
   const [showPassword, setShowPassword] = React.useState(false);
@@ -66,23 +66,21 @@ const LogInPage = () => {
       };
       try {
         setSubmitting(true);
-        
+
         const response = await userLogin(data);
-        console.log("response", response.data);
+        console.log("response11111111111", response);
         // This is check Only Api Response 
         if (!response.status) {
-            // dispatch(setErrorMessage(response.data.message));
-            return;
+          await errorMessage(response.massage ?? null);
+          return;
         }
         if (!response.data.status) {
-            // dispatch(setErrorMessage(response.data.message));
-            return;
+          await errorMessage(response.massage ?? null);
+          return;
         }
-        // dispatch(setSuccessMessage(response?.data?.message));
         resetForm();
         await successMessage(response.data?.message);
-        dispatch(login(response.data.data ?? null));
-        navigate('/admin/dashboard');
+        navigate('/user/dashboard');
       } catch (error) {
       } finally {
         setSubmitting(false);
