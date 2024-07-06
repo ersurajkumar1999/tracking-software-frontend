@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 // material-ui
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -14,14 +14,19 @@ import Loader from 'components/Loader';
 import Breadcrumbs from 'components/@extended/Breadcrumbs';
 
 import { handlerDrawerOpen, useGetMenuMaster } from 'api/menu';
+import Cookies from 'js-cookie';
 const UserLayout = () => {
+    const navigate = useNavigate();
     const { menuMasterLoading } = useGetMenuMaster();
     const downXL = useMediaQuery((theme) => theme.breakpoints.down('xl'));
+    let isLoggedIn = Cookies.get('_session');
 
     useEffect(() => {
         handlerDrawerOpen(!downXL);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [downXL]);
+        if(!isLoggedIn){
+            navigate('/login');
+        }
+    }, [downXL, isLoggedIn]);
 
     if (menuMasterLoading) return <Loader />;
     return (
