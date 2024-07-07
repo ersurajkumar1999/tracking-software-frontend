@@ -33,6 +33,10 @@ const UserRoutes = {
           path: 'sample-page',
           element: <SamplePage />
         },
+        {
+          path: 'logout',
+          element: <SamplePage />
+        },
       ]
     },
     // {
