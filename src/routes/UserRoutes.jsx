@@ -3,6 +3,7 @@ import { lazy } from 'react';
 // project import
 import Loadable from 'components/Loadable'
 import UserLayout from 'user/layout';
+import Screenshot from 'user/screenshot';
 
 const Color = Loadable(lazy(() => import('pages/component-overview/color')));
 const Typography = Loadable(lazy(() => import('pages/component-overview/typography')));
@@ -28,6 +29,10 @@ const UserRoutes = {
         {
           path: 'profile',
           element: <SamplePage />
+        },
+        {
+          path: 'screenshots',
+          element: <Screenshot />
         },
         {
           path: 'sample-page',
