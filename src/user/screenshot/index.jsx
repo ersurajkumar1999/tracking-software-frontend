@@ -1,7 +1,7 @@
-import { Typography, Grid  } from '@mui/material'
+import { Typography, Box, Grid, Paper } from '@mui/material'
 import MainCard from 'components/MainCard'
 import React from 'react'
-
+import { styled } from '@mui/material/styles';
 const Screenshot = () => {
     const screenshots = [
         {
@@ -13,29 +13,37 @@ const Screenshot = () => {
             date: new Date
         }
     ]
+    const Item = styled(Paper)(({ theme }) => ({
+        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+        ...theme.typography.body2,
+        padding: theme.spacing(1),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    }));
+    const image = "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg";
     return (
         <MainCard title="Screenshots">
             {
-                screenshots.map((screenshot) => (
-                    <MainCard title="07-07-2024" className="mt-3">
-                        <Typography variant="body2">
-                            Lorem ipsum dolor sit amen, consenter nipissing eli, sed do elusion tempos incident ut laborers et doolie magna alissa. Ut enif ad
-                            minim venice, quin nostrum exercitation illampu laborings nisi ut liquid ex ea commons construal. Duos aube grue dolor in
-                            reprehended in voltage veil esse colum doolie eu fujian bulla parian. Exceptive sin ocean cuspidate non president, sunk in culpa qui
-                            officiate descent molls anim id est labours.
-                        </Typography>
+                screenshots.map((screenshot, key) => (
+                    <MainCard title="07-07-2024" className="mt-3" key={key}>
                         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                            <Grid item xs={6}>
-                                1
+                            <Grid item xs={3} sm={3}>
+                                <Item><img src={image} height={100} width={100} /> </Item>
                             </Grid>
-                            <Grid item xs={6}>
-                                2
+                            <Grid item xs={3} sm={3}>
+                                <Item><Paper variant="outlined">
+                                    {/* <img src={image} /> */}
+                                </Paper></Item>
                             </Grid>
-                            <Grid item xs={6}>
-                                3
+                            <Grid item xs={3} sm={3}>
+                                <Item> <Box component="img" src={image} alt={'caption'} sx={{ height: "50px", width: "auto" }} />
+                                </Item>
                             </Grid>
-                            <Grid item xs={6}>
-                                <Item>4</Item>
+                            <Grid item xs={3} sm={3}>
+                                <Item>xs=8</Item>
+                            </Grid>
+                            <Grid item xs={3} sm={3}>
+                                <Item>xs=8</Item>
                             </Grid>
                         </Grid>
                     </MainCard>
