@@ -15,15 +15,27 @@ import Breadcrumbs from 'components/@extended/Breadcrumbs';
 
 import { handlerDrawerOpen, useGetMenuMaster } from 'api/menu';
 import Cookies from 'js-cookie';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { login, logout } from '../../features/userSlice';
+
+
 const UserLayout = () => {
+
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user);
+    console.log("user", user);
+    const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+
+
     const navigate = useNavigate();
     const { menuMasterLoading } = useGetMenuMaster();
     const downXL = useMediaQuery((theme) => theme.breakpoints.down('xl'));
-    let isLoggedIn = Cookies.get('_session');
+    // let isLoggedIn = Cookies.get('_session');
 
     useEffect(() => {
         handlerDrawerOpen(!downXL);
-        if(!isLoggedIn){
+        if (!isLoggedIn) {
             navigate('/login');
         }
     }, [downXL, isLoggedIn]);
