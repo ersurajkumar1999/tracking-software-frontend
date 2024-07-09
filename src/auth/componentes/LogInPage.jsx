@@ -14,7 +14,7 @@ import {
   InputLabel,
   OutlinedInput,
   Stack,
-  Typography
+  Typography, CircularProgress, LinearProgress
 } from '@mui/material';
 import { useFormik } from 'formik';
 
@@ -173,9 +173,15 @@ const LogInPage = () => {
         )}
         <Grid item xs={12}>
           <AnimateButton>
+
             <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary">
-              Login
+              {
+                isSubmitting ? <CircularProgress color="inherit" /> : "Login"
+              }
             </Button>
+            {
+              isSubmitting ? <LinearProgress color="inherit" /> : ""
+            }
           </AnimateButton>
         </Grid>
         <Grid item xs={12}>
