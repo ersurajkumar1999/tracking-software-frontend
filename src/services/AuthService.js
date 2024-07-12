@@ -76,5 +76,5 @@ const logout = async () => {
     localStorage.clear();
 };
 export {
-    userLogin, userSignUp, UserLoginWithGoogle, storeDataToStorage
+    userLogin, userSignUp, UserLoginWithGoogle, storeDataToStorage, getToken
 }

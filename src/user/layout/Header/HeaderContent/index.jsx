@@ -12,6 +12,8 @@ import MobileSection from './MobileSection';
 
 // project import
 import { GithubOutlined } from '@ant-design/icons';
+import ClockInClockOut from './ClockInClockOut';
+import CurrentDateTime from './CurrentDateTime';
 
 // ==============================|| HEADER - CONTENT ||============================== //
 
@@ -21,8 +23,9 @@ export default function HeaderContent() {
   return (
     <>
       {!downLG && <Search />}
+
       {downLG && <Box sx={{ width: '100%', ml: 1 }} />}
-      <IconButton
+      {/* <IconButton
         component={Link}
         href="https://github.com/codedthemes/mantis-free-react-admin-template"
         target="_blank"
@@ -32,7 +35,9 @@ export default function HeaderContent() {
         sx={{ color: 'text.primary', bgcolor: 'grey.100' }}
       >
         <GithubOutlined />
-      </IconButton>
+      </IconButton> */}
+      <CurrentDateTime />
+      <ClockInClockOut />
 
       <Notification />
       {!downLG && <Profile />}

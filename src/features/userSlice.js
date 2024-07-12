@@ -8,7 +8,6 @@ if (userData) {
   console.log("userData", userData);
 }
 
-
 const initialState = {
   user: userData ?? null,
   isLoggedIn: userData ? true : false,

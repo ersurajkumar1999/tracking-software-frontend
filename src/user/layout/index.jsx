@@ -34,7 +34,7 @@ const UserLayout = () => {
         const takeScreenshotsRandomly = () => {
             const randomInterval = Math.random() * 600000; // Random time between 0 to 10 minutes (in milliseconds)
             setTimeout(() => {
-                takeScreenshot();
+                // takeScreenshot();
                 takeScreenshotsRandomly(); // Schedule the next screenshot
             }, 2000);
         };
