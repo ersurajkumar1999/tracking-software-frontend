@@ -1,21 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
-// material-ui
-import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
-import FormHelperText from '@mui/material/FormHelperText';
-import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
-import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 
-import {useFormik } from 'formik';
+import {
+  Typography, Box, Stack, OutlinedInput, InputLabel, IconButton, InputAdornment,
+  CircularProgress, LinearProgress, Grid, Link, FormHelperText, FormControl, Button
+} from '@mui/material';
+
+import { useFormik } from 'formik';
 
 // project import
 import AnimateButton from 'components/@extended/AnimateButton';
@@ -26,6 +18,7 @@ import EyeOutlined from '@ant-design/icons/EyeOutlined';
 import EyeInvisibleOutlined from '@ant-design/icons/EyeInvisibleOutlined';
 import { signUpSchema } from 'schemas/FormSchemas';
 import { userSignUp } from 'services/AuthService';
+import { errorMessage, successMessage } from 'helpers/ToasterMessages';
 
 const SignUpPage = () => {
 
@@ -77,21 +70,21 @@ const SignUpPage = () => {
         console.log("data", data);
         setSubmitting(true);
         const response = await userSignUp(data);
-        console.log("response", response);
-        // if (response.status) {
-        //     resetForm();
-        //     dispatch(setSuccessMessage(response.data.message));
-        // } else {
-        //     dispatch(setErrorMessage(response.data.message));
-        // }
+        console.log("response11", response.data);
+        if (!response.status) {
+          await errorMessage(response.data.message ?? null);
+          return;
+        } 
+        await successMessage(response.data.massage ?? null);
       } catch (error) {
-        dispatch(setErrorMessage(error));
+        await errorMessage(response.massage ?? null);
       } finally {
+        resetForm();
         setSubmitting(false);
       }
     },
   });
-  console.log("errors",errors);
+  
   return (
     <form noValidate onSubmit={handleSubmit}>
       <Grid container spacing={3}>
@@ -108,7 +101,7 @@ const SignUpPage = () => {
               placeholder="John"
               fullWidth
               error={Boolean(touched.firstName && errors.firstName)}
-              disabled={isSubmitting} 
+              disabled={isSubmitting}
             />
           </Stack>
           {touched.firstName && errors.firstName && (
@@ -131,7 +124,7 @@ const SignUpPage = () => {
               onChange={handleChange}
               placeholder="Doe"
               inputProps={{}}
-              disabled={isSubmitting} 
+              disabled={isSubmitting}
             />
           </Stack>
           {touched.lastName && errors.lastName && (
@@ -175,7 +168,7 @@ const SignUpPage = () => {
               onChange={handleChange}
               placeholder="demo@company.com"
               inputProps={{}}
-              disabled={isSubmitting} 
+              disabled={isSubmitting}
             />
           </Stack>
           {touched.email && errors.email && (
@@ -214,7 +207,7 @@ const SignUpPage = () => {
               }
               placeholder="******"
               inputProps={{}}
-              disabled={isSubmitting} 
+              disabled={isSubmitting}
             />
           </Stack>
           {touched.password && errors.password && (
@@ -255,8 +248,13 @@ const SignUpPage = () => {
         <Grid item xs={12}>
           <AnimateButton>
             <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary">
-              Create Account
+              {
+                isSubmitting ? <CircularProgress color="inherit" /> : "Create Account"
+              }
             </Button>
+            {
+              isSubmitting ? <LinearProgress color="inherit" /> : ""
+            }
           </AnimateButton>
         </Grid>
       </Grid>

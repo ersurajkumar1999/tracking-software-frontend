@@ -28,6 +28,14 @@ const dashboard = {
       url: '/user/profile',
       icon: icons.DashboardOutlined,
       breadcrumbs: false
+    },
+    {
+      id: 'screenshot',
+      title: 'Screenshots',
+      type: 'item',
+      url: '/user/screenshots',
+      icon: icons.DashboardOutlined,
+      breadcrumbs: false
     }
   ]
 };

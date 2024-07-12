@@ -14,7 +14,7 @@ import {
   InputLabel,
   OutlinedInput,
   Stack,
-  Typography
+  Typography, CircularProgress, LinearProgress
 } from '@mui/material';
 import { useFormik } from 'formik';
 
@@ -28,10 +28,13 @@ import FirebaseSocial from './FirebaseSocial';
 import { loginSchema } from 'schemas/FormSchemas';
 import { storeDataToStorage, userLogin } from 'services/AuthService';
 import { errorMessage, successMessage } from 'helpers/ToasterMessages';
+import { useDispatch } from 'react-redux';
+import { login } from 'features/userSlice';
 
 // ============================|| JWT - LOGIN ||============================ //
 
 const LogInPage = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [checked, setChecked] = React.useState(false);
 
@@ -81,6 +84,7 @@ const LogInPage = () => {
         resetForm();
         await storeDataToStorage(response.data.data);
         await successMessage(response.data?.message);
+        dispatch(login(response.data.data));
         navigate('/user/dashboard');
       } catch (error) {
       } finally {
@@ -173,9 +177,15 @@ const LogInPage = () => {
         )}
         <Grid item xs={12}>
           <AnimateButton>
+
             <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary">
-              Login
+              {
+                isSubmitting ? <CircularProgress color="inherit" /> : "Login"
+              }
             </Button>
+            {
+              isSubmitting ? <LinearProgress color="inherit" /> : ""
+            }
           </AnimateButton>
         </Grid>
         <Grid item xs={12}>

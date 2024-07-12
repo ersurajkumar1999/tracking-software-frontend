@@ -35,6 +35,11 @@ const IMAGE_UPLOAD = "image-upload";
 
 const USERS = 'users';
 
+//  activity Logs
+
+const GET_LAST_LOG = "screenshot/get-log";
+const GET_CREATE_LOG = "screenshot/create-log";
+
 
 // Exporting all variables at once
 export {
@@ -42,5 +47,5 @@ export {
     PROFILE, CHECK_USER_NAME_EXISTS,
     POSTS, CREATE_POST, UPDATE_PROFILE, SEARCH_USER, FETCH_ALL_CHATS, USER_LIST_FOR_CONNECTIONS,
     MY_RECEIVED_CONNECTIONS, MY_SEND_CONNECTIONS, SEND_REQUEST, ACCEPT_REQUEST, UPDATE_SOCIAL_MEDIA,
-    USERS, IMAGE_UPLOAD
+    USERS, IMAGE_UPLOAD, GET_LAST_LOG, GET_CREATE_LOG
 };
