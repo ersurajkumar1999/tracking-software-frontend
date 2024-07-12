@@ -44,6 +44,7 @@ export default function ClockInClockOut() {
         startMemo: lastLog?.startMemo,
         endMemo: null,
     })
+    
     const iconBackColorOpen = 'grey.100';
 
     const handleSubmit = async () => {
