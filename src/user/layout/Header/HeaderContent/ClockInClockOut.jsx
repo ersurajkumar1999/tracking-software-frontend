@@ -8,9 +8,11 @@ import { FaRegClock } from "react-icons/fa";
 import { createActivityLog, lastLogActivity } from 'services/ApiService';
 import { errorMessage } from 'helpers/ToasterMessages';
 import { useDispatch, useSelector } from 'react-redux';
+import { clearCurrentLog, setCurrentLog } from 'features/timeLogSlice';
 export default function ClockInClockOut() {
     const dispatch = useDispatch();
-    const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+    const lastLog = useSelector((state) => state.timeLog.lastLog);
+    console.log("lastLog",lastLog);
     //  Show current Date time
     const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
     useEffect(() => {
@@ -37,10 +39,10 @@ export default function ClockInClockOut() {
     };
 
     const [state, setState] = useState({
-        activityLogId: null,
+        activityLogId: lastLog?._id || null,
         startTime: new Date().toLocaleTimeString(),
-        endTime: null,
-        startMemo: null,
+        startMemo: lastLog?.startMemo,
+        endMemo: null,
     })
     const iconBackColorOpen = 'grey.100';
 
@@ -54,7 +56,7 @@ export default function ClockInClockOut() {
                 await errorMessage(response.massage ?? null);
                 return;
             }
-            dispatch(setCurrentLog(response.data));
+            state?.activityLogId? dispatch(setCurrentLog(response.data.data)):dispatch(clearCurrentLog());
             console.log("response getLastLog", response.status);
         } catch (error) {
             console.log("error", error);
@@ -76,7 +78,7 @@ export default function ClockInClockOut() {
                 await errorMessage(response.massage ?? null);
                 return;
             }
-            response.data ? dispatch(setCurrentLog(response.data)) : dispatch(clearCurrentLog());
+            response.data ? dispatch(setCurrentLog(response.data.data)) : dispatch(clearCurrentLog());
             console.log("response getLastLog", response.status);
         } catch (error) {
             console.log("error", error);

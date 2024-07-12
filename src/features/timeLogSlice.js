@@ -11,7 +11,7 @@ const timeLogSlice = createSlice({
   reducers: {
     setCurrentLog: (state, action) => {
       state.lastLog = action.payload;
-      state.lastLogActive = action.payload ? true : false;
+      state.lastLogActive = (action.payload) ? true : false;
     },
     clearCurrentLog: (state) => {
       state.lastLog = null;
@@ -20,6 +20,6 @@ const timeLogSlice = createSlice({
   },
 });
 
-export const { SetCurrentLog, ClearCurrentLog } = timeLogSlice.actions;
+export const { setCurrentLog, clearCurrentLog } = timeLogSlice.actions;
 
 export default timeLogSlice.reducer;
