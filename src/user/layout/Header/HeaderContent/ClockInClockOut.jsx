@@ -5,14 +5,17 @@ import {
 } from '@mui/material';
 import { MdClose } from "react-icons/md";
 import { FaRegClock } from "react-icons/fa";
+import { FaClock } from "react-icons/fa6";
+
 import { createActivityLog, lastLogActivity } from 'services/ApiService';
-import { errorMessage } from 'helpers/ToasterMessages';
+import { errorMessage, successMessage } from 'helpers/ToasterMessages';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearCurrentLog, setCurrentLog } from 'features/timeLogSlice';
 export default function ClockInClockOut() {
+
     const dispatch = useDispatch();
     const lastLog = useSelector((state) => state.timeLog.lastLog);
-    console.log("lastLog",lastLog);
+    console.log("lastLog", lastLog);
     //  Show current Date time
     const [currentTime, setCurrentTime] = useState(new Date().toLocaleString());
     useEffect(() => {
@@ -20,8 +23,29 @@ export default function ClockInClockOut() {
             setCurrentTime(new Date().toLocaleString());
         }, 1000);
 
+        if (!lastLog) {
+            getLastLog();
+        }
         return () => clearInterval(timer);
     }, []);
+
+    const [state, setState] = useState({
+        activityLogId: lastLog?._id || null,
+        startTime: new Date().toLocaleTimeString(),
+        startMemo: lastLog?.startMemo,
+        endMemo: null,
+    })
+
+    useEffect(() => {
+        if (lastLog) {
+            setState({
+                activityLogId: lastLog?._id || null,
+                startTime: new Date().toLocaleTimeString(),
+                startMemo: lastLog?.startMemo || null,
+                endMemo: null,
+            });
+        }
+    }, [lastLog])
 
 
     const anchorRef = useRef(null);
@@ -37,28 +61,16 @@ export default function ClockInClockOut() {
         }
         setOpen(false);
     };
-
-    const [state, setState] = useState({
-        activityLogId: lastLog?._id || null,
-        startTime: new Date().toLocaleTimeString(),
-        startMemo: lastLog?.startMemo,
-        endMemo: null,
-    })
-    
-    const iconBackColorOpen = 'grey.100';
-
     const handleSubmit = async () => {
-        console.log("handle submit");
-        console.log("state", state);
-
         try {
             const response = await createActivityLog(state);
             if (!response.status) {
                 await errorMessage(response.massage ?? null);
                 return;
             }
-            state?.activityLogId? dispatch(setCurrentLog(response.data.data)):dispatch(clearCurrentLog());
-            console.log("response getLastLog", response.status);
+            state?.activityLogId ? dispatch(clearCurrentLog()) : dispatch(setCurrentLog(response.data.data));
+            setOpen(false);
+            await successMessage(response.data?.message);
         } catch (error) {
             console.log("error", error);
         }
@@ -80,7 +92,6 @@ export default function ClockInClockOut() {
                 return;
             }
             response.data ? dispatch(setCurrentLog(response.data.data)) : dispatch(clearCurrentLog());
-            console.log("response getLastLog", response.status);
         } catch (error) {
             console.log("error", error);
         }
@@ -90,7 +101,7 @@ export default function ClockInClockOut() {
             <IconButton
                 color="secondary"
                 variant="light"
-                sx={{ color: 'text.primary', bgcolor: open ? iconBackColorOpen : 'transparent' }}
+                sx={{ color: 'text.primary', bgcolor: open ? 'grey.100' : 'transparent' }}
                 aria-label="open profile"
                 ref={anchorRef}
                 aria-controls={open ? 'profile-grow' : undefined}
@@ -98,7 +109,9 @@ export default function ClockInClockOut() {
                 onClick={handleClickOpen}
             >
                 <Badge color="primary">
-                    <FaRegClock />
+                    {
+                        lastLog ? <FaClock /> : <FaRegClock />
+                    }
                 </Badge>
             </IconButton>
 
@@ -124,36 +137,75 @@ export default function ClockInClockOut() {
                 </IconButton>
                 <DialogContent dividers>
                     <Grid container spacing={3}>
-                        <Grid item xs={12}>
-                            <Stack spacing={1}>
-                                <InputLabel htmlFor="email-login">Login Time:</InputLabel>
-                                <OutlinedInput
-                                    id="Login-Time"
-                                    type="text"
-                                    value={currentTime}
-                                    name="LoginTime"
-                                    placeholder="Login Time"
-                                    fullWidth
-                                    disabled
-                                />
+                        {
+                            state.activityLogId ?
 
-                            </Stack>
+                                <Grid item xs={12}>
+                                    <Stack spacing={1}>
+                                        <InputLabel htmlFor="email-login" sx={{ fontWeight: 'bold', m: 1 }}>Login Time: {state.startTime}</InputLabel>
+                                        <hr />
+                                        <InputLabel htmlFor="email-login">Logout Time:</InputLabel>
+                                        <OutlinedInput
+                                            id="Login-Time"
+                                            type="text"
+                                            value={currentTime}
+                                            name="LoginTime"
+                                            placeholder="Login Time"
+                                            fullWidth
+                                            disabled
+                                        />
+                                    </Stack>
+                                </Grid>
 
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Stack spacing={1}>
-                                <InputLabel htmlFor="email-login">Memo:</InputLabel>
-                                <TextField
-                                    id="filled-multiline-static"
-                                    placeholder='Memo'
-                                    multiline
-                                    rows={4}
-                                    name="startMemo"
-                                    value={state.startMemo}
-                                    onChange={handleChange}
-                                />
-                            </Stack>
-                        </Grid>
+                                : <Grid item xs={12}>
+                                    <Stack spacing={1}>
+                                        <InputLabel htmlFor="email-login">Login Time:</InputLabel>
+                                        <OutlinedInput
+                                            id="Login-Time"
+                                            type="text"
+                                            value={currentTime}
+                                            name="LoginTime"
+                                            placeholder="Login Time"
+                                            fullWidth
+                                            disabled
+                                        />
+                                    </Stack>
+                                </Grid>
+                        }
+
+                        {
+                            state.activityLogId ?
+                                <Grid item xs={12}>
+                                    <Stack spacing={1}>
+                                        <InputLabel htmlFor="email-login">End Memo:</InputLabel>
+                                        <TextField
+                                            id="filled-multiline-static"
+                                            placeholder='Memo'
+                                            multiline
+                                            rows={4}
+                                            name="endMemo"
+                                            value={state.endMemo}
+                                            onChange={handleChange}
+                                        />
+                                    </Stack>
+                                </Grid>
+                                :
+                                <Grid item xs={12}>
+                                    <Stack spacing={1}>
+                                        <InputLabel htmlFor="email-login">Start Memo:</InputLabel>
+                                        <TextField
+                                            id="filled-multiline-static"
+                                            placeholder='Memo'
+                                            multiline
+                                            rows={4}
+                                            name="startMemo"
+                                            value={state.endMemo}
+                                            onChange={handleChange}
+                                        />
+                                    </Stack>
+                                </Grid>
+                        }
+
                     </Grid>
                 </DialogContent>
                 <DialogActions>

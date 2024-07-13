@@ -53,7 +53,6 @@ function a11yProps(index) {
 export default function Profile() {
   const user = useSelector((state) => state.user.user);
 
-  console.log("user", user);
   const theme = useTheme();
 
   const anchorRef = useRef(null);

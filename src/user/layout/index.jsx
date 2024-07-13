@@ -23,7 +23,10 @@ import { takeScreenshot } from 'helpers/Screenshot';
 
 const UserLayout = () => {
     const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+    const lastLog = useSelector((state) => state.timeLog.lastLog);
 
+    const logData = lastLog;
+    console.log("lastLog UserLayout", lastLog);
     const navigate = useNavigate();
     const { menuMasterLoading } = useGetMenuMaster();
     const downXL = useMediaQuery((theme) => theme.breakpoints.down('xl'));
@@ -34,9 +37,10 @@ const UserLayout = () => {
         const takeScreenshotsRandomly = () => {
             const randomInterval = Math.random() * 600000; // Random time between 0 to 10 minutes (in milliseconds)
             setTimeout(() => {
-                // takeScreenshot();
+                console.log("logDatalogDatalogData", logData);
+                // takeScreenshot("669267fcd144a421eeaf53a2");
                 takeScreenshotsRandomly(); // Schedule the next screenshot
-            }, 2000);
+            }, 100000);
         };
         takeScreenshotsRandomly();
 
@@ -44,7 +48,7 @@ const UserLayout = () => {
         if (!isLoggedIn) {
             navigate('/login');
         }
-    }, [downXL, isLoggedIn]);
+    }, [downXL, isLoggedIn, lastLog]);
 
     if (menuMasterLoading) return <Loader />;
 

@@ -13,7 +13,7 @@ const timeLogSlice = createSlice({
       state.lastLog = action.payload;
       state.lastLogActive = (action.payload) ? true : false;
     },
-    clearCurrentLog: (state) => {
+    clearCurrentLog: () => {
       state.lastLog = null;
       state.lastLogActive = false;
     },
