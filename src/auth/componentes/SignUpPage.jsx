@@ -42,11 +42,11 @@ const SignUpPage = () => {
   }, []);
 
   const initialValues = {
-    firstName: 'suraj',
-    lastName: 'kumar',
-    email: 'suraj1@gmail.com',
-    password: '12345678',
-    confirmPassword: '12345678',
+    firstName: 'Dev',
+    lastName: 'Kumar',
+    email: 'devsuraj@gmail.com',
+    password: 'devsuraj@',
+    confirmPassword: 'devsuraj@',
     iAgree: false,
   };
   const {

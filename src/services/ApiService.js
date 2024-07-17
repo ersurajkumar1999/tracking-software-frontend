@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { BASE_URL } from './config';
 import { errorResponse, successResponse } from './ApiResponse';
-import { GET_CREATE_LOG, GET_LAST_LOG, SCREENSHOT_LIST, SCREENSHOT_UPLOAD } from './API_ENDPOINTS';
+import { GET_CREATE_LOG, GET_LAST_LOG, ME, SCREENSHOT_LIST, SCREENSHOT_UPLOAD } from './API_ENDPOINTS';
 import { getToken } from './AuthService';
 let service = axios.create({
     baseURL: BASE_URL,
@@ -43,7 +43,15 @@ const screenshotUpload = async (data) => {
         return errorResponse(error);
     }
 }
+const getUserInfo = async () => {
+    try {
+        const response = await service.post(ME, {});
+        return successResponse(response);
+    } catch (error) {
+        return errorResponse(error);
+    }
+}
 
 export {
-    lastLogActivity, createActivityLog, getScreenshotList, screenshotUpload
+    lastLogActivity, createActivityLog, getScreenshotList, screenshotUpload, getUserInfo
 }

@@ -1,5 +1,5 @@
 
 export const getFullName = (user) => {
-    // console.log("get nae name",user);
-    return "name1";
+    console.log("get nae name",user);
+    return "name122";
 }

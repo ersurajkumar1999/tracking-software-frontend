@@ -10,6 +10,7 @@ if (userData) {
 const initialState = {
   user: userData ?? null,
   isLoggedIn: userData ? true : false,
+  userInfo: null,
 };
 
 const userSlice = createSlice({
@@ -20,6 +21,9 @@ const userSlice = createSlice({
       state.user = action.payload;
       state.isLoggedIn = true;
     },
+    setUserInfo: (state, action) => {
+      state.userInfo = action.payload;
+    },
     logout: (state) => {
       state.user = null;
       state.isLoggedIn = false;
@@ -27,6 +31,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login, logout, setUserInfo, userInfo } = userSlice.actions;
 
 export default userSlice.reducer;
